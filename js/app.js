@@ -1,64 +1,146 @@
 $(document).ready(function(){
 
-	function closePopUp2(){
-
-		$('.popUpExit').on('click', function(){
-			$('.newsletterPopUp').hide();
-
+	function showPopUp(){
+		$('.buttonMain').on('click', function(){
+			$('.popUpTalk').show();
 		})
 
-		$('.popUpBg-gray').on('click', function(){
-			$(this).parent('.newsletterPopUp').hide();
+		$('.aboutUsSmallText').find('span').on('click', function(){
+			$('.popUpTalk').show();
+		})
 
+		$('.videoPlaceholder').on('click', function(){
+			$('.popUpVideo').show();
 		})
 	}
 
-	function popUpFocus2(){
-		var email = $('#popUpEmail');
+	function hidePopUp(){
+		$('.exit').on('click', function(){
+			$('.popUpTalk').hide();
+		})
+
+		$('.exitVideo').on('click', function(){
+			$('.popUpVideo').hide();
+		})
+	}
+
+	function fieldsFocus(){
+
+		var name = $('.fieldName');
+		var nameVal = name.val();
+		var email = $('.fieldEmail');
 		var emailVal = email.val();
-		var errorEmail = $('.popUpErrorEmail');
+		var message = $('.message');
+		var messageVal = message.val();
+
+		name.on('focus', function(){
+			if(nameVal === "Name"){
+				nameVal == name.val('');
+			}
+		})
 
 		email.on('focus', function(){
-			email.css('border', '1px solid #f90000');
-			$(errorEmail).hide();
-			if(emailVal == "Podaj swój adres e-mail"){
+			if(emailVal === "E-mail adresse"){
 				emailVal == email.val('');
-			};
-		});
-	}
-
-
-
-	function validation2(){
-		var form = $('form');
-		var email = $('#popUpEmail');
-		var errorEmail = $('.popUpErrorEmail');
-		var button = $('.popUpButton');
-		var popUpMain = $('.popUpMain');
-        var popUpMain2 = $('.popUpMain2');
-        var popUp = $('.newsletterPopUp');
-
-
-		$(button).on('click', function(event){
-			event.preventDefault();
-			var newEmail = email.val();
-
-			if ((newEmail.indexOf('.') == -1) && (newEmail.indexOf('@') === -1)){
-				$(errorEmail).show();
-				event.preventDefault();	
 			}
-			else{
-				$(popUpMain).hide();
-			 	$(popUpMain2).show();
-				$(popUp).delay(7000).hide(0);
-			}
-
 		})
 
+		message.on('focus', function(){
+			if(messageVal === "Message"){
+				messageVal == message.val('');
+			}
+		})
 
+	}	
+	
+
+	function fieldsBlur(){
+		
+		
+		var email = $('.fieldEmail');
+		var emailVal = email.val();
+		var message = $('.message');
+		var messageVal = message.val();
+
+
+		$('.fieldName').blur(function(){
+
+			var nameVal = $('.fieldName').val();
+			if(nameVal == ''){
+				nameVal == $('.fieldName').val('Name');
+			}
+		})
+
+		$('.fieldEmail').blur(function(){
+			
+			var emailVal = $('.fieldEmail').val();
+			if(emailVal == ''){
+				emailVal == $('.fieldEmail').val('E-mail adresse');
+			}
+		})
+
+		$('.message').blur(function(){
+			
+			var messageVal = $('.message').val();
+			if(messageVal == ''){
+				messageVal == $('.message').val('Message');
+			}
+		})
+
+	}	
+
+	
+	function odsylacz(){
+
+		$('.arrowSend').find('a').on('click', function(){
+
+			var href = $(this).attr('href');
+
+		 	$('html, body').animate({
+		        scrollTop: $(href).offset().top - 20
+		    }, 1000);
+
+				return false;
+		})
+		
 	}
 
-	closePopUp2();
-	validation2();
-	popUpFocus2();
+	
+	$('.slickSlider').slick({
+        centerMode: true,
+  		slidesToShow: 1.65,
+  		prevArrow: $('.arrowPrev'),
+  		nextArrow: $('.arrowNext'),
+  		infinite: true,
+  		responsive: true,
+      });
+
+	var owl = $('.owl-carousel');
+	owl.owlCarousel({
+    	items:4,
+   	 	center: true,
+    	margin:50,
+ 	    loop:true,
+ 	    margin:10,
+    	autoplay:true,
+    	autoplayTimeout:3000,
+    	autoplayHoverPause:true
+	});
+	
+	$('.play').on('click',function(){
+    	owl.trigger('autoplay.play.owl',[3000])
+	})
+	$('.stop').on('click',function(){
+    	owl.trigger('autoplay.stop.owl')
+	})
+	
+
+	
+	showPopUp();
+	hidePopUp();
+	fieldsFocus();
+	fieldsBlur();
+	odsylacz();
+	
+
 });
